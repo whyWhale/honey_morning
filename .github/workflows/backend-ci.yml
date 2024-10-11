@@ -1,0 +1,32 @@
+name: Backend CI Pipeline
+
+on:
+  push:
+    paths:
+      - 'BE/**'
+  pull_request:
+    paths:
+      - 'BE/**'
+
+jobs:
+  build:
+    name: Build BE Application
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Build BE application
+        working-directory: BE
+        run: ./gradlew clean build
+
+      - name: Test BE application
+        working-directory: BE
+        run: ./gradlew test
